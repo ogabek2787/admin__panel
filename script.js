@@ -1,27 +1,32 @@
-let token = '';
-
 // Ro'yxatdan o'tish
-function register() {
+document.getElementById('register-form').addEventListener('submit', function(event) {
+    event.preventDefault();
     const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    fetch('http://localhost:3000/api/auth/register', {
+    // Ro'yxatdan o'tishni serverga yuborish
+    fetch('/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, email, password }),
     })
     .then(response => response.json())
-    .then(data => alert(data.message));
-}
+    .then(data => {
+        document.getElementById('message').innerText = data.message;
+    });
+});
 
-// Kirish
-function login() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+// Login qilish
+document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
 
-    fetch('http://localhost:3000/api/auth/login', {
+    // Login qilishni serverga yuborish
+    fetch('/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -30,26 +35,28 @@ function login() {
     })
     .then(response => response.json())
     .then(data => {
-        token = data.token;
-        document.getElementById('auth').style.display = 'none';
-        document.getElementById('tracker').style.display = 'block';
-        getMonthlyTotal(); // Yangi kirgan foydalanuvchi uchun umumiy hisobni olish
+        if (data.success) {
+            window.location.href = 'dashboard.html';
+        } else {
+            document.getElementById('message').innerText = data.message;
+        }
     });
-}
+});
 
-// Pul miqdorini kiritish
-function addSalary() {
-    const amount = document.getElementById('moneyAmount').value;
+// Kunlik daromadni qo'shish
+let totalIncome = 0;
+document.getElementById('add-income-btn').addEventListener('click', function() {
+    const dailyIncome = parseFloat(document.getElementById('daily-income').value);
 
-    fetch('http://localhost:3000/api/salary/add', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token, amount }),
-    })
-    .then(response => response.json())
-    .then(data => alert(data.message));
-}
+    if (!isNaN(dailyIncome)) {
+        totalIncome += dailyIncome;
+        document.getElementById('total-income').innerText = `Umumiy daromad: ${totalIncome} so'm`;
+    } else {
+        document.getElementById('total-income').innerText = 'Iltimos, to\'g\'ri raqam kiriting!';
+    }
+});
 
-// Oylik umumiy hisobni olish va grafikani chizish
+// Chiqish
+document.getElementById('logout-btn').addEventListener('click', function() {
+    window.location.href = 'index.html';
+});
