@@ -38,7 +38,7 @@
 
 
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -50,7 +50,7 @@
   <div class="container">
     <h1>Hisoblash Sayti</h1>
 
-    <!-- Ro'yxatdan o'tish shakli -->
+     Ro'yxatdan o'tish shakli 
     <div class="form-container">
       <form id="registration-form">
         <label for="username">Foydalanuvchi nomi:</label>
@@ -65,7 +65,7 @@
       </form>
     </div>
 
-    <!-- Kunlik daromad kiritish qismi -->
+    Kunlik daromad kiritish qismi 
     <div class="form-container">
       <form id="income-form">
         <label for="income">Har kunlik daromad:</label>
@@ -77,5 +77,45 @@
   </div>
 
   <script src="app.js"></script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login va Hisoblash Sayti</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="login-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+        <div id="login-message"></div>
+    </div>
+
+    <div class="calculator-container" style="display: none;">
+        <h2>Hisoblash</h2>
+        <label for="number1">Birinchi son:</label>
+        <input type="number" id="number1" placeholder="Son kiriting">
+
+        <label for="number2">Ikkinchi son:</label>
+        <input type="number" id="number2" placeholder="Son kiriting">
+
+        <button id="calculate-btn">Hisoblash</button>
+        <div id="result"></div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
