@@ -13,14 +13,21 @@ document.getElementById('register-form').addEventListener('submit', function(eve
         },
         body: JSON.stringify({ username, email, password }),
     })
-    .then(response => response.json())
+    .then(response => {
+        console.log(response);
+        return response.json();
+    })
     .then(data => {
+        console.log('Serverdan kelgan javob:', data);
         document.getElementById('message').innerText = data.message;
     })
     .catch(error => {
+        console.log('Xatolik:', error);
         document.getElementById('message').innerText = 'Xatolik yuz berdi';
     });
 });
+    
+
 
 // Login funksiyasi
 document.getElementById('login-form').addEventListener('submit', function(event) {

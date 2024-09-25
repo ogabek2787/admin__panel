@@ -10,15 +10,17 @@ app.use(express.static('public'));
 
 // Ro'yxatdan o'tish
 app.post('/register', (req, res) => {
-    const { username, email, password } = req.body;
+  const { username, email, password } = req.body;
+  console.log('Kiritilgan ma\'lumotlar:', username, email, password);
 
-    if (users.find(user => user.username === username)) {
-        return res.status(400).json({ message: 'Bu username allaqachon mavjud!' });
-    }
+  if (users.find(user => user.username === username)) {
+      return res.status(400).json({ message: 'Bu username allaqachon mavjud!' });
+  }
 
-    users.push({ username, email, password });
-    res.status(200).json({ message: 'Ro\'yxatdan muvaffaqiyatli o\'tildi!' });
+  users.push({ username, email, password });
+  res.status(200).json({ message: 'Ro\'yxatdan muvaffaqiyatli o\'tildi!' });
 });
+
 
 // Login qilish
 app.post('/login', (req, res) => {
