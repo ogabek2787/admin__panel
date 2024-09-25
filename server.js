@@ -32,24 +32,58 @@
 // });
 
 
+
+
+
+// const express = require('express');
+// const path = require('path');
+// const app = express();
+// const port = process.env.PORT || 3001;
+
+// // Statik fayllarni ulash (HTML va CSS fayllarini ishlatish)
+// app.use(express.static(path.join(__dirname, 'public')));
+
+// // POST so'rovini olish (foydalanuvchidan ma'lumot olish)
+// app.use(express.urlencoded({ extended: true }));
+
+// app.post('/submit-salary', (req, res) => {
+//     const amount = req.body.amount;
+//     console.log(`Kiritilgan miqdor: ${amount}`);
+//     res.send(`<h2>Kiritilgan miqdor: ${amount}</h2><a href="/">Orqaga</a>`);
+// });
+
+// // Serverni ishga tushirish
+// app.listen(port, () => {
+//   console.log(`Server ${port}-portda ishlamoqda...`);
+// });
+
+
+
 const express = require('express');
-const path = require('path');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const app = express();
-const port = process.env.PORT || 3001;
+require('dotenv').config();
 
-// Statik fayllarni ulash (HTML va CSS fayllarini ishlatish)
-app.use(express.static(path.join(__dirname, 'public')));
+const PORT = process.env.PORT || 5000;
 
-// POST so'rovini olish (foydalanuvchidan ma'lumot olish)
-app.use(express.urlencoded({ extended: true }));
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
 
-app.post('/submit-salary', (req, res) => {
-    const amount = req.body.amount;
-    console.log(`Kiritilgan miqdor: ${amount}`);
-    res.send(`<h2>Kiritilgan miqdor: ${amount}</h2><a href="/">Orqaga</a>`);
-});
+// MongoDB ulanish
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => console.log('MongoDB connected'))
+  .catch(err => console.log(err));
+
+// Auth routes
+app.use('/api/auth', require('./routes/auth'));
 
 // Serverni ishga tushirish
-app.listen(port, () => {
-  console.log(`Server ${port}-portda ishlamoqda...`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
+
