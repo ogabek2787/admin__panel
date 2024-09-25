@@ -3,25 +3,24 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Foydalanuvchilarni vaqtinchalik saqlash
+// Foydalanuvchilarni vaqtinchalik saqlash (bu ma'lumotlar bazasi bilan almashtirilishi mumkin)
 let users = [];
 
 // Static fayllarni servis qilish
 app.use(express.static('public'));
-
-// Ma'lumotlarni JSON formatida qabul qilish uchun
 app.use(bodyParser.json());
 
 // Ro'yxatdan o'tish endpoint
 app.post('/register', (req, res) => {
     const { username, email, password } = req.body;
 
-    // Foydalanuvchi borligini tekshirish
-    if (users.find(user => user.username === username)) {
-        return res.status(400).json({ message: 'Username mavjud, boshqa username tanlang.' });
+    // Foydalanuvchi mavjudligini tekshirish
+    const existingUser = users.find(user => user.username === username);
+    if (existingUser) {
+        return res.status(400).json({ message: 'Bu username allaqachon mavjud. Boshqa username tanlang.' });
     }
 
-    // Foydalanuvchini ro'yxatga qo'shish
+    // Yangi foydalanuvchini ro'yxatga qo'shish
     users.push({ username, email, password, dailyIncome: 0 });
     res.status(200).json({ message: 'Ro\'yxatdan o\'tish muvaffaqiyatli!' });
 });
