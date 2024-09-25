@@ -1,4 +1,4 @@
-// Ro'yxatdan o'tish funksiyasi
+// Ro'yxatdan o'tish funk
 document.getElementById('register-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
